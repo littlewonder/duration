@@ -10,7 +10,7 @@ chrome.extension.sendMessage({}, function (response) {
             window.addEventListener("keydown", handleEvent, false);
 
             //get total time to finish
-            currTime = document.querySelector('video').duration;
+            currTime = document.getElementsByClassName('video-stream')[0].duration;
 
             //Change Current Time to Hours and Minutes from Seconds
             minutesRemaining = convertTime(currTime);
@@ -55,7 +55,7 @@ chrome.extension.sendMessage({}, function (response) {
                     currSpeed.innerHTML = "Current Speed: <strong>" + speed + "</strong>";
 
                     //decrease playback rate
-                    document.querySelector('video').playbackRate -= 0.25;
+                    document.getElementsByClassName('video-stream')[0].playbackRate -= 0.25;
 
                     //change time to finish
                     currTime = (currTime * 5) / 4;
@@ -73,7 +73,7 @@ chrome.extension.sendMessage({}, function (response) {
                     currSpeed.innerHTML = "Current Speed: <strong>" + speed + "</strong>";
 
                     //increase playback rate
-                    document.querySelector('video').playbackRate += 0.25;
+                    document.getElementsByClassName('video-stream')[0].playbackRate += 0.25;
 
                     //change time to finish
                     currTime = (currTime * 4) / 5;
