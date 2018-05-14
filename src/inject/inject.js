@@ -6,27 +6,22 @@ chrome.extension.sendMessage({}, function (response) {
             //initial speed
             var speed = 1.00;
 
-            //get video
-            var vid = document.querySelector('video');
-
             //call events on key press
             window.addEventListener("keydown", handleEvent, false);
 
             //get total time to finish
-            currTime = vid.duration;
+            currTime = document.querySelector('video').duration;
 
             //Change Current Time to Hours and Minutes from Seconds
             minutesRemaining = convertTime(currTime);
+            document.getElementsByClassName('ytp-time-duration')[0].innerHTML = minutesRemaining;
 
-            //Add Current Speed and Time remaining Node
+            //Add Current Speed Node
             var controlPanel = document.createElement("div");
             var currSpeed = document.createElement("span");
-            var timeToComplete = document.createElement("span");
-            currSpeed.innerHTML = "Current Speed: " + speed;
-            timeToComplete.innerHTML = "Time to Complete: "+ minutesRemaining;
+            currSpeed.innerHTML = "Current Speed: <strong>" + speed + "</strong>";
             controlPanel.appendChild(currSpeed);
-            controlPanel.appendChild(timeToComplete);
-            controlPanel.className='panel';
+            controlPanel.className = 'panel';
             document.getElementsByClassName('html5-video-player')[0].appendChild(controlPanel);
 
             //converts seconds to hours&minutes https://stackoverflow.com/a/49905383
@@ -39,10 +34,14 @@ chrome.extension.sendMessage({}, function (response) {
 
                 (min.toString().length == 1) ? min = '0' + min: void 0;
                 (sec.toString().length == 1) ? sec = '0' + sec: void 0;
-                //Limit length of seconds
-                sec = parseInt(sec);
 
-                return hours + ':' + min + ':' + sec;
+                if (hours === 00 ) {
+                    res = min + ':' + ~~sec;
+                } else {
+                    res = hours + ':' + min + ':' + ~~sec;
+                }
+                return res;
+
             }
 
             function handleEvent(e) {
@@ -53,17 +52,17 @@ chrome.extension.sendMessage({}, function (response) {
                     speed -= 0.25;
 
                     //update Speed
-                    currSpeed.innerHTML = "Current Speed: " + speed;
+                    currSpeed.innerHTML = "Current Speed: <strong>" + speed + "</strong>";
 
                     //decrease playback rate
-                    vid.playbackRate -= 0.25;
+                    document.querySelector('video').playbackRate -= 0.25;
 
                     //change time to finish
                     currTime = (currTime * 5) / 4;
                     minutesRemaining = convertTime(currTime);
 
                     //update time to finish
-                    timeToComplete.innerHTML = "Time to Complete: "+ minutesRemaining;
+                    document.getElementsByClassName('ytp-time-duration')[0].innerHTML = minutesRemaining;
                 }
                 //if key is "=" increase speed
                 else if (keyCode == 187 || keyCode == 107) {
@@ -71,17 +70,17 @@ chrome.extension.sendMessage({}, function (response) {
                     speed += 0.25;
 
                     //update Speed
-                    currSpeed.innerHTML = "Current Speed: " + speed;
+                    currSpeed.innerHTML = "Current Speed: <strong>" + speed + "</strong>";
 
                     //increase playback rate
-                    vid.playbackRate += 0.25;
+                    document.querySelector('video').playbackRate += 0.25;
 
                     //change time to finish
                     currTime = (currTime * 4) / 5;
                     minutesRemaining = convertTime(currTime);
 
                     //update time to finish
-                    timeToComplete.innerHTML = "Time to Complete: "+ minutesRemaining;
+                    document.getElementsByClassName('ytp-time-duration')[0].innerHTML = minutesRemaining;
                 } else {
                     //do nothing
                 }

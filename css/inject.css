@@ -2,6 +2,10 @@
     color: white;
     z-index: 999999;
     position: absolute;
+    padding: 8px;
+    border-radius: 1px;
+    background-color: rgba(0,0,0,0.5);
     right: 2px;
+    font-size: 14px;
     top: 2px;
 }
